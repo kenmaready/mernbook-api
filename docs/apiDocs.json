@@ -1,0 +1,16 @@
+{
+    "GET /": "api docs",
+    "GET /posts": "get all posts",
+    "POST /signup": "signup",
+    "POST /login": "login",
+    "GET /logout": "logout",
+    "GET /users": "get all users",
+    "GET /users/:userId": "get user",
+    "PATCH /users/:userId": "update user",
+    "DELETE /users/:userId": "delete user",
+    "GET /posts": "get all posts",
+    "GET /posts/:userId": "get all posts for user",
+    "POST /posts/:userId": "create new post for user",
+    "PATCH /posts/:postId": "update post",
+    "DELETE /posts/:postId": "delete post"
+}
