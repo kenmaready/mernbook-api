@@ -27,6 +27,7 @@ app.use("/", userRouter);
 app.use(middleware.unauthErrorMessage);
 
 app.get("/", (req, res) => {
+    console.log("get has been called to '/'...");
     const file = fs.readFile("docs/apiDocs.json", (err, data) => {
         if (err) {
             res.status(400);
