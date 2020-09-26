@@ -8,7 +8,7 @@ exports.hasAuthorization = (req, res, next) => {
         req.profile && req.auth && req.profile._id.equals(req.auth._id);
     const isAdmin = req.profile && req.auth && req.auth.role === "admin";
     const authorized = isSameUser || isAdmin;
-    
+
     if (!authorized) {
         res.status(400);
         return res.json({
@@ -71,6 +71,7 @@ exports.updateProfile = async (req, res) => {
             });
         }
 
+        delete fields.role; // <-- new line
         let user = req.profile;
         user = _.extend(user, fields);
 
