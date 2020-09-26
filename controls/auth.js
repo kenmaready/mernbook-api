@@ -5,6 +5,17 @@ const User = require("../models/user");
 const { sendEmail } = require("../utils/email");
 require("dotenv").config();
 
+exports.generateToken = (user) => {
+    const token = jwt.sign(
+        { _id: user._id, role: user.role },
+        process.env.JWT_SECRET
+    );
+    // console.log(token);
+    return token;
+
+    // persist the token in  cookie with expiry date
+};
+
 exports.signup = async (req, res) => {
     var { name, email, password } = req.body;
     email = email.toLowerCase();
@@ -102,14 +113,6 @@ exports.requireLogin = expressJwt({
     // to an auth key in user object:
     userProperty: "auth",
 });
-
-exports.generateToken = (user) => {
-    const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET);
-    // console.log(token);
-    return token;
-
-    // persist the token in  cookie with expiry date
-};
 
 exports.forgotPassword = async (req, res) => {
     if (!req.body) return res.status(400).json({ error: "No request body." });

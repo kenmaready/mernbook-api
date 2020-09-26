@@ -88,8 +88,11 @@ exports.createPost = (req, res, next) => {
 exports.isOwner = (req, res, next) => {
     const isOwner =
         req.post && req.auth && req.post.owner._id.equals(req.auth._id);
-    console.log("isOwner():", isOwner);
-    if (!isOwner) {
+    const isAdmin = req.post && req.auth && req.auth.role === "admin";
+
+    const authorized = isOwner || isAdmin;
+
+    if (!authorized) {
         res.status(401);
         return res.json({
             error: "User not authorized to modify or delete this post.",

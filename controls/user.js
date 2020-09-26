@@ -4,9 +4,11 @@ const fs = require("fs");
 const User = require("../models/user");
 
 exports.hasAuthorization = (req, res, next) => {
-    const authorized =
+    const isSameUser =
         req.profile && req.auth && req.profile._id.equals(req.auth._id);
-
+    const isAdmin = req.profile && req.auth && req.auth.role === "admin";
+    const authorized = isSameUser || isAdmin;
+    
     if (!authorized) {
         res.status(400);
         return res.json({

@@ -32,6 +32,7 @@ const userSchema = new mongoose.Schema(
         },
         following: [{ type: ObjectId, ref: "User" }],
         followers: [{ type: ObjectId, ref: "User" }],
+        role: { type: String, default: "subscriber" },
         resetPasswordLink: { data: String, default: "" },
     },
     { timestamps: true }
@@ -76,6 +77,7 @@ userSchema.methods = {
             following: this.following,
             createdAt: this.createdAt,
             updatedAt: this.updatedAt,
+            role: this.role,
             _id: this._id,
         };
     },
