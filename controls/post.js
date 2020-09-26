@@ -4,19 +4,25 @@ const fs = require("fs");
 const Post = require("../models/post");
 
 exports.getPosts = async (req, res) => {
-    Post.find({})
-        .populate("owner", "name")
-        .populate("comments", "text createdAt")
-        .populate("comments.owner", "name")
-        .select("_id title body createdAt updatedAt likes")
-        .sort({ createdAt: -1 })
-        .then((posts) => {
-            res.send({ posts, success: true });
-        })
-        .catch((err) => {
-            res.status(500);
-            res.json({ error: err });
-        });
+    const currentPage = req.query.page || 1;
+    const perPage = 6;
+    let totalItems;
+
+    try {
+        const posts = await Post.find({})
+            .skip((currentPage - 1) * perPage)
+            .populate("owner", "name")
+            .populate("comments", "text createdAt")
+            .populate("comments.owner", "name")
+            .select("_id title body createdAt updatedAt likes")
+            .sort({ createdAt: -1 })
+            .limit(perPage);
+
+        res.json({ posts, success: true });
+    } catch (err) {
+        res.status(500);
+        res.json({ error: err });
+    }
 };
 
 exports.getPostsByUser = async (req, res) => {
